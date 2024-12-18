@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joyeux Noël 🎄</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(to bottom, #b71c1c, #ffcc80);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            color: #ffeb3b;
+            animation: fadeIn 2s ease-in-out;
+        }
+        p {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            animation: fadeIn 2s ease-in-out 0.5s;
+        }
+        input, button {
+            padding: 10px 15px;
+            font-size: 1.2em;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            outline: none;
+            cursor: pointer;
+            animation: fadeInUp 1s ease-out 1.5s;
+        }
+        input {
+            width: 70%;
+            max-width: 300px;
+        }
+        button {
+            background-color: #ff9800;
+            color: white;
+        }
+        button:hover {
+            background-color: #e67e22;
+        }
+        .message {
+            margin-top: 20px;
+            font-size: 1.5em;
+            color: #ffeb3b;
+            animation: fadeIn 2s ease-in-out 2s, sparkle 2s infinite alternate;
+        }
+        #visitorCount {
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+        .snowflake {
+            position: absolute;
+            top: -10%;
+            font-size: 1.5em;
+            color: white;
+            animation: fall 10s linear infinite, sway 3s ease-in-out infinite alternate;
+        }
+
+        /* Keyframes for animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fall {
+            to { top: 110%; }
+        }
+
+        @keyframes sway {
+            from { transform: translateX(-10px); }
+            to { transform: translateX(10px); }
+        }
+
+        @keyframes sparkle {
+            0% { text-shadow: 0 0 5px #ffeb3b, 0 0 10px #ffeb3b; }
+            100% { text-shadow: 0 0 10px #ffeb3b, 0 0 20px #ffd700; }
+        }
+    </style>
+</head>
+<body>
+    <h1>🎄 Joyeux Noël 🎄</h1>
+    <p>Entrez votre prénom pour recevoir votre message spécial !</p>
+    <input type="text" id="nameInput" placeholder="Votre prénom">
+    <button onclick="showMessage()">Voir le message</button>
+    <div class="message" id="message"></div>
+
+    <button onclick="shareOnWhatsApp()">Partager sur WhatsApp</button>
+    <p id="visitorCount">🎉 Nombre de visiteurs : 0</p>
+
+    <!-- Snowflakes -->
+    <div class="snowflake" style="left: 10%;">❄️</div>
+    <div class="snowflake" style="left: 20%;">❄️</div>
+    <div class="snowflake" style="left: 30%;">❄️</div>
+    <div class="snowflake" style="left: 50%;">❄️</div>
+    <div class="snowflake" style="left: 70%;">❄️</div>
+    <div class="snowflake" style="left: 80%;">❄️</div>
+
+    <!-- Background Music -->
+    <audio autoplay loop>
+        <source src="https://example.com/christmas-music.mp3" type="audio/mpeg">
+        Votre navigateur ne supporte pas la lecture audio.
+    </audio>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1"></script>
+    <script>
+        function showConfetti() {
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+        }
+
+        function showMessage() {
+            const name = document.getElementById('nameInput').value.trim();
+            const messageDiv = document.getElementById('message');
+
+            if (name === "") {
+                messageDiv.textContent = "🎅 Veuillez entrer votre prénom ! 🎁";
+            } else {
+                messageDiv.innerHTML = `✨ Joyeux Noël, <strong>${name}</strong> ! 🎉 Que cette fête soit remplie de bonheur et de magie ! 🌟`;
+                showConfetti();
+            }
+        }
+
+        function shareOnWhatsApp() {
+            const siteUrl = window.location.href;
+            const message = `🎅 Joyeux Noël ! Personnalisez votre message ici 🎁 ${siteUrl}`;
+            const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // Simulate visitor counter (local for now)
+        let visitorCount = localStorage.getItem('visitorCount') || 0;
+        visitorCount++;
+        localStorage.setItem('visitorCount', visitorCount);
+        document.getElementById('visitorCount').textContent = `🎉 Nombre de visiteurs : ${visitorCount}`;
+
+        // Generate additional snowflakes
+        function createSnowflakes() {
+            const body = document.body;
+            for (let i = 0; i < 10; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.className = 'snowflake';
+                snowflake.textContent = '❄️';
+                snowflake.style.left = Math.random() * 100 + '%';
+                snowflake.style.animationDelay = Math.random() * 5 + 's';
+                snowflake.style.fontSize = Math.random() * 1.5 + 1 + 'em';
+                body.appendChild(snowflake);
+            }
+        }
+        createSnowflakes();
+    </script>
+</body>
+</html>
+
